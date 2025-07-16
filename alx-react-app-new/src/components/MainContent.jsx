@@ -1,3 +1,5 @@
+import React from "react";
+
 function MainContent() {
   return (
     <main
@@ -10,8 +12,7 @@ function MainContent() {
     >
       <h2 style={{ color: "#333" }}>Welcome to the City Guide</h2>
       <p style={{ maxWidth: "600px", margin: "10px auto" }}>
-        Explore the best places to visit, eat, and relax in your favorite
-        cities.
+        I love to visit New York, Paris, and Tokyo.
       </p>
     </main>
   );
