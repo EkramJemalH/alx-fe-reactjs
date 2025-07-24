@@ -1,25 +1,27 @@
-import React, { useState } from "react";
+// src/components/EditRecipeForm.jsx
+import React, { useState, useEffect } from "react";
 import { useRecipeStore } from "./recipeStore";
 
-const EditRecipeForm = ({ recipe }) => {
+const EditRecipeForm = ({ recipe, onClose }) => {
   const updateRecipe = useRecipeStore((state) => state.updateRecipe);
   const [title, setTitle] = useState(recipe.title);
   const [description, setDescription] = useState(recipe.description);
-  const [editing, setEditing] = useState(false);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    updateRecipe({ id: recipe.id, title, description });
-    setEditing(false);
+  const handleSubmit = (event) => {
+    event.preventDefault(); // <-- This line is required
+    updateRecipe({ ...recipe, title, description });
+    if (onClose) onClose();
   };
 
-  if (!editing) {
-    return <button onClick={() => setEditing(true)}>Edit Recipe</button>;
-  }
+  useEffect(() => {
+    setTitle(recipe.title);
+    setDescription(recipe.description);
+  }, [recipe]);
 
   return (
     <form onSubmit={handleSubmit}>
       <input
+        type="text"
         value={title}
         onChange={(e) => setTitle(e.target.value)}
         placeholder="Title"
@@ -31,8 +33,8 @@ const EditRecipeForm = ({ recipe }) => {
         placeholder="Description"
         required
       />
-      <button type="submit">Save</button>
-      <button type="button" onClick={() => setEditing(false)}>
+      <button type="submit">Save Changes</button>
+      <button type="button" onClick={onClose}>
         Cancel
       </button>
     </form>
