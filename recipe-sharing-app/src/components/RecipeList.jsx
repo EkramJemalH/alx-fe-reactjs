@@ -1,28 +1,23 @@
-// src/components/RecipeList.jsx
-import React from "react";
 import { useRecipeStore } from "../store/recipeStore";
-import { Link } from "react-router-dom";
 
-const RecipeList = () => {
-  const recipes = useRecipeStore((state) => state.recipes);
+const RecipeCard = ({ recipe }) => {
+  const favorites = useRecipeStore((state) => state.favorites);
+  const addFavorite = useRecipeStore((state) => state.addFavorite);
+  const removeFavorite = useRecipeStore((state) => state.removeFavorite);
+
+  const isFavorite = favorites.includes(recipe.id);
 
   return (
     <div>
-      {recipes.map((recipe) => (
-        <div key={recipe.id} style={{ marginBottom: "1rem" }}>
-          <h3>
-            <Link
-              to={`/recipes/${recipe.id}`}
-              style={{ textDecoration: "none", color: "blue" }}
-            >
-              {recipe.title}
-            </Link>
-          </h3>
-          <p>{recipe.description}</p>
-        </div>
-      ))}
+      <h3>{recipe.title}</h3>
+      <p>{recipe.description}</p>
+      <button
+        onClick={() =>
+          isFavorite ? removeFavorite(recipe.id) : addFavorite(recipe.id)
+        }
+      >
+        {isFavorite ? "Unfavorite" : "Add to Favorites"}
+      </button>
     </div>
   );
 };
-
-export default RecipeList;
