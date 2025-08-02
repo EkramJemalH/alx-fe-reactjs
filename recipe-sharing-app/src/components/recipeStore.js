@@ -23,6 +23,13 @@ const useRecipeStore = create((set) => ({
       );
       return { recommendations: recommended };
     }),
+
+  // 🆕 Search Feature
+  searchTerm: "",
+  setSearchTerm: (term) =>
+    set(() => ({
+      searchTerm: term,
+    })),
 }));
 
 export { useRecipeStore };
