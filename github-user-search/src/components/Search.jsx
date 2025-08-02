@@ -7,6 +7,7 @@ function Search() {
   const [minRepos, setMinRepos] = useState("");
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(""); // added error state
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -15,10 +16,15 @@ function Search() {
     }${minRepos ? ` repos:>${minRepos}` : ""}`;
 
     setLoading(true);
+    setError("");
     try {
       const results = await fetchUserData(query.trim());
+      if (results.length === 0) {
+        setError("Looks like we can't find the user");
+      }
       setUsers(results);
     } catch (err) {
+      setError("Looks like we can't find the user");
       console.error(err.message);
     } finally {
       setLoading(false);
@@ -59,17 +65,29 @@ function Search() {
 
       {loading && <p className="mt-4">Loading...</p>}
 
-      {users.length > 0 && (
+      {error && !loading && (
+        <p className="mt-4 text-red-600 font-semibold">{error}</p>
+      )}
+
+      {users.length > 0 && !loading && (
         <div className="mt-6">
           <h2 className="text-lg font-semibold mb-2">Results:</h2>
           <ul className="space-y-4">
             {users.map((user) => (
-              <li key={user.id} className="p-4 border rounded">
+              <li
+                key={user.id}
+                className="p-4 border rounded flex items-center gap-4"
+              >
+                <img
+                  src={user.avatar_url}
+                  alt={`${user.login} avatar`}
+                  className="w-12 h-12 rounded-full"
+                />
                 <a
                   href={user.html_url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-blue-600"
+                  className="text-blue-600 font-medium"
                 >
                   {user.login}
                 </a>
