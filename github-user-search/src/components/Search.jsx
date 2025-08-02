@@ -21,11 +21,11 @@ function Search() {
     try {
       const results = await fetchUserData(query.trim());
       if (results.length === 0) {
-        setError("Looks like we can't find the user");
+        setError("Looks like we cant find the user");
       }
       setUsers(results);
     } catch (err) {
-      setError("Looks like we can't find the user");
+      setError("Looks like we cant find the user");
       console.error(err.message);
     } finally {
       setLoading(false);
@@ -72,9 +72,12 @@ function Search() {
           <h2 className="text-lg font-semibold mb-2">Results:</h2>
           <ul className="space-y-4">
             {users.map((user) => (
-              <li key={user.id} className="p-4 border rounded flex items-center gap-4">
+              <li
+                key={user.id}
+                className="p-4 border rounded flex items-center gap-4"
+              >
                 <img
-                  src={user.avatar_url}          {/* <-- uses avatar_url */}
+                  src={user.avatar_url}
                   alt={user.login}
                   className="w-12 h-12 rounded-full"
                 />
