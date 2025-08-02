@@ -39,25 +39,25 @@ function Search() {
           type="text"
           placeholder="GitHub Username"
           value={username}
-          onChange={(e) => setUsername(e.target.value)} // <--- target.value here
+          onChange={(e) => setUsername(e.target.value)}
           className="p-2 border rounded"
         />
         <input
           type="text"
           placeholder="Location"
           value={location}
-          onChange={(e) => setLocation(e.target.value)} // <--- target.value here
+          onChange={(e) => setLocation(e.target.value)}
           className="p-2 border rounded"
         />
         <input
           type="number"
           placeholder="Minimum Repositories"
           value={minRepos}
-          onChange={(e) => setMinRepos(e.target.value)} // <--- target.value here
+          onChange={(e) => setMinRepos(e.target.value)}
           className="p-2 border rounded"
         />
         <button
-          type="submit" // <--- button element here
+          type="submit"
           className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
         >
           Search
@@ -68,20 +68,28 @@ function Search() {
       {error && <p className="text-red-600">{error}</p>}
 
       {users.length > 0 && (
-        <ul>
-          {users.map((user) => (
-            <li key={user.id}>
-              <a
-                href={user.html_url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-blue-600"
-              >
-                {user.login}
-              </a>
-            </li>
-          ))}
-        </ul>
+        <div className="mt-6">
+          <h2 className="text-lg font-semibold mb-2">Results:</h2>
+          <ul className="space-y-4">
+            {users.map((user) => (
+              <li key={user.id} className="p-4 border rounded flex items-center gap-4">
+                <img
+                  src={user.avatar_url}          {/* <-- uses avatar_url */}
+                  alt={user.login}
+                  className="w-12 h-12 rounded-full"
+                />
+                <a
+                  href={user.html_url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-600 font-medium"
+                >
+                  {user.login}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
       )}
     </div>
   );
