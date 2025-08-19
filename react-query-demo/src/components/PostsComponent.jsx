@@ -12,7 +12,7 @@ const fetchPosts = async () => {
 };
 
 function PostsComponent() {
-  const { data, isLoading, isError, error } = useQuery("posts", fetchPosts, {
+  const { data, isLoading, isError, error, refetch } = useQuery("posts", fetchPosts, {
     // React Query caching options
     cacheTime: 1000 * 60 * 5, // keep cache for 5 minutes
     staleTime: 1000 * 30, // data is "fresh" for 30 seconds
@@ -31,6 +31,9 @@ function PostsComponent() {
   return (
     <div>
       <h2>Posts</h2>
+      <button onClick={() => refetch()} style={{ marginBottom: "1rem" }}>
+        Refetch Posts
+      </button>
       <ul>
         {data.slice(0, 10).map((post) => (
           <li key={post.id}>
