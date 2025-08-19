@@ -1,79 +1,66 @@
 import React, { useState } from "react";
 
 export default function RegistrationForm() {
-  // Step 1: State for form fields
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const [errors, setErrors] = useState({});
 
-  // Step 2: Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Basic validation
-    if (!username || !email || !password) {
-      setError("All fields are required.");
-      return;
+    let newErrors = {};
+    if (!username) {
+      newErrors.username = "Username is required";
+    }
+    if (!email) {
+      newErrors.email = "Email is required";
+    }
+    if (!password) {
+      newErrors.password = "Password is required";
     }
 
-    setError("");
-    console.log("Form submitted:", { username, email, password });
+    setErrors(newErrors);
 
-    // Reset fields
-    setUsername("");
-    setEmail("");
-    setPassword("");
+    if (Object.keys(newErrors).length === 0) {
+      console.log("Form submitted:", { username, email, password });
+      // Here you can call your mock API
+    }
   };
 
   return (
-    <form onSubmit={handleSubmit} className="p-4 border rounded max-w-md mx-auto">
-      <h2 className="text-xl font-bold mb-4">User Registration</h2>
-
-      {error && <p className="text-red-500 mb-2">{error}</p>}
-
-      {/* Username */}
-      <div className="mb-3">
-        <label className="block mb-1">Username</label>
+    <form onSubmit={handleSubmit}>
+      <div>
+        <label>Username:</label>
         <input
           type="text"
-          value={username}       // ✅ controlled input
+          value={username}
           onChange={(e) => setUsername(e.target.value)}
-          className="border p-2 w-full"
-          placeholder="Enter your username"
         />
+        {errors.username && <p style={{ color: "red" }}>{errors.username}</p>}
       </div>
 
-      {/* Email */}
-      <div className="mb-3">
-        <label className="block mb-1">Email</label>
+      <div>
+        <label>Email:</label>
         <input
           type="email"
-          value={email}          // ✅ controlled input
+          value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="border p-2 w-full"
-          placeholder="Enter your email"
         />
+        {errors.email && <p style={{ color: "red" }}>{errors.email}</p>}
       </div>
 
-      {/* Password */}
-      <div className="mb-3">
-        <label className="block mb-1">Password</label>
+      <div>
+        <label>Password:</label>
         <input
           type="password"
-          value={password}       // ✅ controlled input
+          value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="border p-2 w-full"
-          placeholder="Enter your password"
         />
+        {errors.password && <p style={{ color: "red" }}>{errors.password}</p>}
       </div>
 
-      <button
-        type="submit"
-        className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-      >
-        Register
-      </button>
+      <button type="submit">Register</button>
     </form>
   );
 }
