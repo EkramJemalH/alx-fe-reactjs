@@ -1,84 +1,76 @@
 import React, { useState } from "react";
 
 export default function RegistrationForm() {
-  const [formData, setFormData] = useState({
-    username: "",
-    email: "",
-    password: "",
-  });
-
+  // Step 1: State for form fields
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
-
+  // Step 2: Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Simple validation
-    if (!formData.username || !formData.email || !formData.password) {
+    // Basic validation
+    if (!username || !email || !password) {
       setError("All fields are required.");
       return;
     }
 
     setError("");
-    console.log("Submitting data:", formData);
+    console.log("Form submitted:", { username, email, password });
 
-    // Example API call (mock endpoint)
-    fetch("https://jsonplaceholder.typicode.com/users", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(formData),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log("API Response:", data);
-        alert("User registered successfully!");
-      })
-      .catch((err) => console.error("Error:", err));
+    // Reset fields
+    setUsername("");
+    setEmail("");
+    setPassword("");
   };
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="max-w-md mx-auto p-4 bg-gray-100 rounded-lg shadow-md"
-    >
-      <h2 className="text-xl font-bold mb-4">Register (Controlled)</h2>
+    <form onSubmit={handleSubmit} className="p-4 border rounded max-w-md mx-auto">
+      <h2 className="text-xl font-bold mb-4">User Registration</h2>
 
-      {error && <p className="text-red-500">{error}</p>}
+      {error && <p className="text-red-500 mb-2">{error}</p>}
 
-      <input
-        type="text"
-        name="username"
-        placeholder="Username"
-        value={formData.username}
-        onChange={handleChange}
-        className="w-full p-2 mb-2 border rounded"
-      />
+      {/* Username */}
+      <div className="mb-3">
+        <label className="block mb-1">Username</label>
+        <input
+          type="text"
+          value={username}       // ✅ controlled input
+          onChange={(e) => setUsername(e.target.value)}
+          className="border p-2 w-full"
+          placeholder="Enter your username"
+        />
+      </div>
 
-      <input
-        type="email"
-        name="email"
-        placeholder="Email"
-        value={formData.email}
-        onChange={handleChange}
-        className="w-full p-2 mb-2 border rounded"
-      />
+      {/* Email */}
+      <div className="mb-3">
+        <label className="block mb-1">Email</label>
+        <input
+          type="email"
+          value={email}          // ✅ controlled input
+          onChange={(e) => setEmail(e.target.value)}
+          className="border p-2 w-full"
+          placeholder="Enter your email"
+        />
+      </div>
 
-      <input
-        type="password"
-        name="password"
-        placeholder="Password"
-        value={formData.password}
-        onChange={handleChange}
-        className="w-full p-2 mb-2 border rounded"
-      />
+      {/* Password */}
+      <div className="mb-3">
+        <label className="block mb-1">Password</label>
+        <input
+          type="password"
+          value={password}       // ✅ controlled input
+          onChange={(e) => setPassword(e.target.value)}
+          className="border p-2 w-full"
+          placeholder="Enter your password"
+        />
+      </div>
 
       <button
         type="submit"
-        className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600"
+        className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
       >
         Register
       </button>
